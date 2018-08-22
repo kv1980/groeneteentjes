@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import be.vdab.groenetenen.entities.Offerte;
@@ -23,6 +24,7 @@ class DefaultMailSender implements MailSender {
 		this.sender = sender;
 	}
 
+	@Async
 	@Override
 	public void nieuweOfferte(Offerte offerte,String offertesURL) {
 		try {
