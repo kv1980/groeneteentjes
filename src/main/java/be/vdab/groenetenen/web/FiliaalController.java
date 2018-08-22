@@ -22,6 +22,7 @@ import be.vdab.groenetenen.services.FiliaalService;
 public class FiliaalController {
 	private static final String VAN_TOT_POSTCODE_VIEW = "filialen/vantotpostcode";
 	private static final String FILIAAL_VIEW = "filialen/filiaal";
+	private static final String PER_ID_VIEW = "filialen/perid";
 	private static final String REDIRECT_FILIAAL_NIET_GEVONDEN = "redirect:/";
 	private final FiliaalService filiaalService;
 
@@ -55,5 +56,10 @@ public class FiliaalController {
 		}
 		redirectAttributes.addAttribute("fout", "Foutboodschap: filiaal werd niet gevonden.");
 		return new ModelAndView(REDIRECT_FILIAAL_NIET_GEVONDEN);
+	}
+	
+	@GetMapping("perid")
+	String findById() {
+		return PER_ID_VIEW;
 	}
 }
