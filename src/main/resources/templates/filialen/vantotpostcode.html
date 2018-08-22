@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='nl' xmlns:th='http://www.thymeleaf.org'>
+<head th:replace="fragments::head(title='Groene tenen')"></head>
+<body>
+	<nav th:replace='fragments::menu'></nav>
+	<h1>Zoek filialen volgens postcode</h1>
+
+	<form th:action='@{/filialen}' th:object='${vanTotPostcodeForm}' method='get'>
+		<label>
+			Van:
+			<span th:if="${#fields.hasErrors('van')}" th:errors='*{van}'></span>
+			<input th:field='*{van}' autofocus>
+		</label>
+		<label>
+			Tot:
+			<span th:if="${#fields.hasErrors('tot')}" th:errors='*{tot}'></span>
+			<input th:field='*{tot}'>
+		</label>
+		<input type='submit' value='zoeken'>
+		<div th:if='${#fields.hasGlobalErrors()}'>
+			<div class='fout' th:each='err : ${#fields.globalErrors()}' th:text='${err}'></div> 
+		</div>
+	</form>
+	<div th:if='${aantalFilialen == null || aantalFilialen == 0}'>Geen Filialen gevonden</div>
+	<div th:if='${aantalFilialen != null && aantalFilialen != 0}' th:text='|Er werden ${aantalFilialen} filialen gevonden:|'>Geen Filialen gevonden</div>
+	<div th:each='filiaal:${filialen}'>
+		<h2 th:text='${filiaal.naam}'></h2>
+		<div th:text='|${filiaal.adres.straat} ${filiaal.adres.huisNr}|'></div>
+		<div th:text='|${filiaal.adres.postcode} ${filiaal.adres.gemeente}|'></div>
+		<div><a th:href='@{/filialen/{id}(id=${filiaal.id})}'>Detail</a></div>
+	</div>
+</body>
+</html>
