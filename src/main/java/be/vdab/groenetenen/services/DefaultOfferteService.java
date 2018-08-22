@@ -23,9 +23,9 @@ class DefaultOfferteService implements OfferteService {
 
 	@Override
 	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED)
-	public void create(Offerte offerte) {
+	public void create(Offerte offerte, String offertesURL) {
 		offerteRepository.save(offerte);
-		mailSender.nieuweOfferte(offerte);
+		mailSender.nieuweOfferte(offerte,offertesURL);
 	}
 
 	@Override

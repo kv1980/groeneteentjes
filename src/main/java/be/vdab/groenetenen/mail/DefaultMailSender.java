@@ -1,11 +1,14 @@
 package be.vdab.groenetenen.mail;
 
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import be.vdab.groenetenen.entities.Offerte;
@@ -21,16 +24,20 @@ class DefaultMailSender implements MailSender {
 	}
 
 	@Override
-	public void nieuweOfferte(Offerte offerte) {
-		System.out.println("---------------------"+offerte.getEmailAdres());
-		System.out.println("---------------------"+offerte.getId());
+	public void nieuweOfferte(Offerte offerte,String offertesURL) {
 		try {
-			SimpleMailMessage message = new SimpleMailMessage();
+/*			SimpleMailMessage message = new SimpleMailMessage();
 			message.setTo(offerte.getEmailAdres());
 			message.setSubject("nieuwe offerte");
-			message.setText("Uw offerte heeft nummer "+offerte.getId());
+			message.setText("Uw offerte heeft nummer "+offerte.getId());*/
+			MimeMessage message = sender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message);
+			helper.setTo(offerte.getEmailAdres());
+			helper.setSubject("nieuwe offerte");
+			String offerteURL = offertesURL + offerte.getId();
+			helper.setText("Uw offerte heeft het nummer <strong>"+offerte.getId()+"</strong>. U vindt de offerte <a href='"+offerteURL+"'>hier</a>.",true);
 			sender.send(message);
-		} catch (MailException ex) {
+		} catch (MessagingException|MailException ex) {
 			LOGGER.error("Kan mail met nieuwe offerte niet versturen",ex);
 			throw new KanMailNietZendenException();
 		}

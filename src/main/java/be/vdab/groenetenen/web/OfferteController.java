@@ -1,9 +1,12 @@
 package be.vdab.groenetenen.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -20,6 +23,7 @@ class OfferteController {
 	private final OfferteService offerteService;
 	private static final String STAP_1_VIEW="offertes/stap1";
 	private static final String STAP_2_VIEW="offertes/stap2";
+	private static final String OFFERTE_VIEW = "offertes/offerte"; 
 	private static final String REDIRECT_NA_OPSLAAN="redirect:/";
 
 	public OfferteController(OfferteService offerteService) {
@@ -43,12 +47,18 @@ class OfferteController {
 	}
 	
 	@PostMapping(value = "toevoegen", params = "opslaan")
-	String opslaan(@Validated(Offerte.Stap2.class) Offerte offerte, BindingResult bindingResult, SessionStatus sessionStatus) {
+	String opslaan(@Validated(Offerte.Stap2.class) Offerte offerte, BindingResult bindingResult, SessionStatus sessionStatus, HttpServletRequest request) {
 		if(bindingResult.hasErrors()) {
 			return STAP_2_VIEW;
 		}
-		offerteService.create(offerte);
+		String offertesURL = request.getRequestURL().toString().replace("toevoegen","");
+		offerteService.create(offerte,offertesURL);
 		sessionStatus.setComplete();
 		return REDIRECT_NA_OPSLAAN;
 	}
+	
+	@GetMapping("{offerte}")
+	ModelAndView read(@PathVariable Offerte offerte) {
+		return new ModelAndView(OFFERTE_VIEW).addObject(offerte);
+	} 
 }
