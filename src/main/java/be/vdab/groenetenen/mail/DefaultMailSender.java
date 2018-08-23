@@ -28,7 +28,6 @@ class DefaultMailSender implements MailSender {
 		this.emailWebmaster = emailWebmaster;
 	}
 
-	@Async
 	@Override
 	public void nieuweOfferte(Offerte offerte,String offertesURL) {
 		try {

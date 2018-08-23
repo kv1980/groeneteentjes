@@ -12,13 +12,19 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
+import be.vdab.groenetenen.adapters.LocalDateAdapter;
+
 @Entity
 @Table(name = "offertes")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Offerte implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public interface Stap1 {
@@ -42,6 +48,7 @@ public class Offerte implements Serializable {
 	@NumberFormat
 	private Integer oppervlakte;
 	@DateTimeFormat(style = "S-")
+	@XmlJavaTypeAdapter(value = LocalDateAdapter.class)
 	private LocalDate aangemaakt = LocalDate.now();
 
 	public void setVoornaam(String voornaam) {
