@@ -32,12 +32,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 
 	 @Override
 	 public void configure(HttpSecurity http) throws Exception {
-		 http.formLogin()
-		 	.and()
-		 	.authorizeRequests()
-		 	.mvcMatchers("/offertes/toevoegen").hasAuthority(MANAGER)
-		 	.mvcMatchers("werknemers").hasAnyAuthority(MAGAZIJNIER,HELPDESKMEDEWERKER)
-		 	.mvcMatchers("/", "/login").permitAll()
-		 	.mvcMatchers("/**").authenticated();
+		 http.formLogin().loginPage("/login")
+		 	.and().logout().logoutSuccessUrl("/")
+		 	.and().authorizeRequests()
+		 		.mvcMatchers("/offertes/toevoegen").hasAuthority(MANAGER)
+		 		.mvcMatchers("werknemers").hasAnyAuthority(MAGAZIJNIER,HELPDESKMEDEWERKER)
+		 		.mvcMatchers("/","/login").permitAll()
+		 		.mvcMatchers("/**").authenticated();
 	 }  
 }

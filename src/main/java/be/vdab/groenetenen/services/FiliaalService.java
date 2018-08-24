@@ -15,4 +15,6 @@ public interface FiliaalService {
 	Filiaal findMetHoogsteWaardeGebouw();
 	BigDecimal findGemiddeldeWaardeGebouwInGemeente(String gemeente);
 	
+	void afschrijven(long id);
+	
 }

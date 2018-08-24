@@ -69,7 +69,9 @@ class DefaultFiliaalService implements FiliaalService {
 		return repository.findGemiddeldeWaardeGebouwInGemeente(gemeente);
 	}
 
-
-
-
+	@Override
+	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED)
+	public void afschrijven(long id) {
+		repository.findById(id).ifPresent(filiaal -> filiaal.afschrijven());
+	}
 }

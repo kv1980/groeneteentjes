@@ -26,7 +26,11 @@
 			 	<ul>
 			 		<li><a th:href='@{/offertes/toevoegen}'>Toevoegen</a></li>
 			 	</ul>
-			</li>			
+			</li>	
+			<li><a th:href='@{/login}'>Aanmelden</a></li>
+			<li> 
+				<form method='post' th:action='@{/logout}' id='logoutform'> <input type='submit' value='Afmelden' id='logoutbutton'> </form> 
+			</li>		
 		</ul>
 	</nav>
 </body>

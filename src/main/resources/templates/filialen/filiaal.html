@@ -15,5 +15,8 @@
 			<a th:href='@{/euro/{euro}/naardollar(euro=${filiaal.waardeGebouw})}'>hier</a> voor waarde in dollar.)</dd>
 		<dt>In gebruikname</dt><dd th:text='${{filiaal.inGebruikName}}'></dd>
 	</dl>
+	<form th:action='@{/filialen/{id}/afschrijven(id=${filiaal.id})}' method='post'>
+		<input type='submit' value='Afschrijven'>
+	</form>
 </body>
 </html>
