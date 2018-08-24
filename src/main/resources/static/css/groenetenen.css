@@ -51,6 +51,16 @@ nav>ul>li>a,nav ul li ul li a, nav>ul>li>form>span,#logoutbutton {
 	font-weight: bold;
 }
 
+nav ul li div {
+	position:fixed;
+	right:40px;
+	line-height: 1.8em;
+	padding: 0.25em 0.25em;
+	color: white;
+	font-weight: bold;
+	font-size: 0.75em;
+}
+
 #logoutbutton {
 	background: none;
 	border: none;
@@ -205,3 +215,4 @@ blockquote {
 .pagineren a:hover {
 	text-decoration: underline;
 }
+

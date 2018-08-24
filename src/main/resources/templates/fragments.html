@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang='nl' xmlns:th='http://www.thymeleaf.org'>
+<html lang='nl' xmlns:th='http://www.thymeleaf.org'
+				xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 <head>
 	<meta charset="UTF-8">
 	<link rel='icon' th:href='@{/images/groenetenen.ico}' type='image/x-icon'>
@@ -11,25 +12,28 @@
 	<nav th:fragment='menu'>
 		<ul>
 			<li><a th:href='@{/}'>&#8962;</a></li>
-			<li><a href='#'>Filialen</a>
+			<li sec:authorize='isAuthenticated()'><a href='#'>Filialen</a>
 				<ul>
 					<li><a th:href='@{/filialen/vantotpostcode}'>Van tot postcode</a></li>
 					<li><a th:href='@{/filialen/perid}'>Per id</a></li>
 				</ul>
 			</li>
-			<li><a href='#'>Werknemers</a>
+			<li sec:authorize-url="/werknemers"><a href='#'>Werknemers</a>
 				<ul>
 					<li><a th:href='@{/werknemers?sort=filiaal.naam}'>Lijst</a></li>
 				</ul>     
 			 </li>
-			 <li><a href='#'>Offertes</a>
+			 <li sec:authorize-url="/offertes/toevoegen"><a href='#'>Offertes</a>
 			 	<ul>
 			 		<li><a th:href='@{/offertes/toevoegen}'>Toevoegen</a></li>
 			 	</ul>
 			</li>	
-			<li><a th:href='@{/login}'>Aanmelden</a></li>
-			<li> 
-				<form method='post' th:action='@{/logout}' id='logoutform'> <input type='submit' value='Afmelden' id='logoutbutton'> </form> 
+			<li sec:authorize='isAnonymous()'><a th:href='@{/login}'>Aanmelden</a></li>
+			<li sec:authorize='isAuthenticated()'> 
+				<form method='post' th:action='@{/logout}' id='logoutform'><input type='submit' value='Afmelden' id='logoutbutton'> </form>
+			</li>
+			<li sec:authorize='isAuthenticated()'>
+				<div>(u bent nu ingelogd als <span sec:authentication='name'></span>)</div>
 			</li>		
 		</ul>
 	</nav>
