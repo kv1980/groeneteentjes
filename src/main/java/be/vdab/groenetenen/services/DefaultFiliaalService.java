@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +71,7 @@ class DefaultFiliaalService implements FiliaalService {
 	}
 
 	@Override
+	@PreAuthorize("hasAuthority('manager')")
 	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED)
 	public void afschrijven(long id) {
 		repository.findById(id).ifPresent(filiaal -> filiaal.afschrijven());
