@@ -30,8 +30,13 @@ class FilialenResource extends ResourceSupport{
 	FilialenResource(Iterable<Filiaal> filialen, EntityLinks entityLinks){
 		for (Filiaal filiaal : filialen) {
 			this.filialenIdNaam.add(new FiliaalIdNaam(filiaal));
+			//<filiaal id="1" naam="Andros"/> 
+			//<filiaal id="2" naam="Delos"/>
 			this.add(entityLinks.linkToSingleResource(Filiaal.class,filiaal.getId()).withRel("detail."+filiaal.getId()));
+			//<atom:link href="/filialen/1" rel="detail.1"/>
+			//<atom:link href="/filialen/2" rel="detail.2"/
 		}
 		this.add(entityLinks.linkToCollectionResource(Filiaal.class));
+		//<atom:link href="/filialen" rel="self"/>
 	}
 }

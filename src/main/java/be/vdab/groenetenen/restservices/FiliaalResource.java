@@ -23,8 +23,12 @@ public class FiliaalResource extends ResourceSupport {
 	}
 	
 	FiliaalResource(Filiaal filiaal, EntityLinks entityLinks){
+		//hier worden alle gegevens van het filiaal gevraagd, behalve de werknemers (zie Filiaal-klasse)
 		this.filiaal = filiaal;
+		//hier wordt een link gezet: <link rel='self' href='http://localhost:8080/filialen/1' />
 		this.add(entityLinks.linkToSingleResource(Filiaal.class, filiaal.getId()));
+		//hier wordt een link gezet: <link rel='werknemers' href='http://localhost:8080/filialen/1/werknemers' />
+		//om meer info over de werknemers te geven
 		this.add(entityLinks.linkForSingleResource(Filiaal.class, filiaal.getId()).slash("werknemers").withRel("werknemers"));
 	}
 

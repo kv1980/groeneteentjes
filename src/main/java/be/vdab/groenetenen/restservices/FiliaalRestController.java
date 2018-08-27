@@ -29,15 +29,15 @@ import be.vdab.groenetenen.exceptions.FiliaalReedsInDatabaseException;
 import be.vdab.groenetenen.services.FiliaalService;
 
 @RestController
-@RequestMapping("filialen")
-@ExposesResourceFor(Filiaal.class)
+@RequestMapping("filialen") //onderscheid maken met @RequestMapping in web-laag!
+@ExposesResourceFor(Filiaal.class) // HATEOAS
 class FiliaalRestController {
 	private final FiliaalService filiaalService;
-	private final EntityLinks entityLinks;
+	private final EntityLinks entityLinks; //HATEOAS
 
 	FiliaalRestController(FiliaalService filiaalService, EntityLinks entityLinks) {
 		this.filiaalService = filiaalService;
-		this.entityLinks = entityLinks;
+		this.entityLinks = entityLinks; //HATEOAS
 	}
 	
 	@PostMapping
@@ -45,19 +45,17 @@ class FiliaalRestController {
 	HttpHeaders create(@RequestBody @Valid Filiaal filiaal) {
 		filiaalService.create(filiaal);
 		HttpHeaders headers = new HttpHeaders();
-		Link link = entityLinks.linkToSingleResource(Filiaal.class,filiaal.getId());
-		headers.setLocation(URI.create(link.getHref()));
+		Link link = entityLinks.linkToSingleResource(Filiaal.class,filiaal.getId()); //<link rel='self' href='/filialen/1' />
+		headers.setLocation(URI.create(link.getHref())); //<link rel='self' href='http://localhost:8080/filialen/1' />
 		return headers;
 	}
-	
-
 	
 	@GetMapping("{filiaal}")
 	FiliaalResource read(@PathVariable Optional<Filiaal> filiaal) {
 		if (!filiaal.isPresent()) {
 			throw new FiliaalNietGevondenException();
 		}
-		return new FiliaalResource(filiaal.get(),entityLinks);
+		return new FiliaalResource(filiaal.get(),entityLinks); // bij HATEOAS maak je dus een FiliaalResource klasse
 	}
 	
 	@PutMapping("{id}")
@@ -75,7 +73,7 @@ class FiliaalRestController {
 	
 	@GetMapping
 	FilialenResource findAll() {
-		return new FilialenResource(filiaalService.findAll(),entityLinks);
+		return new FilialenResource(filiaalService.findAll(),entityLinks); //HATEOAS je maakt dus ook een FilialenResource klasse
 	}
 	
 	@ExceptionHandler(FiliaalNietGevondenException.class)

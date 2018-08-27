@@ -13,29 +13,28 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
 class Webconfiguratie implements WebMvcConfigurer {			
+
+//	INDIEN ZELF VASTGELEGD
 //	@Bean
 //	FixedLocaleResolver localeResolver()	{
 //		return new FixedLocaleResolver(new Locale("fr","BE"));	
 //	}
 
-	
+//	INDIEN GEVRAAGD EN VASTGELEGD IN SESSION	
 //	@Bean
 //	SessionLocaleResolver localeResolver() {
 //		return new SessionLocaleResolver();
 //	}
-//	
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(new LocaleChangeInterceptor());
-//	}
-	
+
+//	INDIEN GEVRAAGD EN VASTGELEGD IN COOKIE	
 	@Bean
 	CookieLocaleResolver localeResolver() {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
 		resolver.setCookieMaxAge(604_800);
 		return resolver;
 	}
-	
+
+//	NODIG OM localeResolve OP TE ROEPEN (zowel session als cookie)
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LocaleChangeInterceptor());
